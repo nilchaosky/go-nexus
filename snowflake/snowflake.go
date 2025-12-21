@@ -2,6 +2,7 @@ package snowflake
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/GUAIK-ORG/go-snowflake/snowflake"
 	"github.com/nilchaosky/go-nexus/serialize/variant"
@@ -26,7 +27,7 @@ func Register(config Config) error {
 	var err error
 	sf, err = snowflake.NewSnowflake(config.DatacenterID, config.WorkerID)
 	if err != nil {
-		return errors.New("Snowflake节点初始化失败: " + err.Error())
+		return fmt.Errorf("节点初始化失败: %w", err)
 	}
 	return nil
 }
@@ -34,7 +35,7 @@ func Register(config Config) error {
 // GenerateID 生成全局唯一ID
 func GenerateID() (int64, error) {
 	if sf == nil {
-		return 0, errors.New("Snowflake节点未初始化")
+		return 0, errors.New("节点未初始化")
 	}
 	return sf.NextVal(), nil
 }
@@ -42,7 +43,7 @@ func GenerateID() (int64, error) {
 // GenerateSerializeInt64 生成SerializeInt64类型ID
 func GenerateSerializeInt64() (variant.SerializeInt64, error) {
 	if sf == nil {
-		return 0, errors.New("Snowflake节点未初始化")
+		return 0, errors.New("节点未初始化")
 	}
 	id, err := GenerateID()
 	if err != nil {

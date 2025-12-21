@@ -7,7 +7,6 @@ type Config struct {
 }
 
 // Default 返回默认配置
-// 默认数据中心ID为0，工作节点ID为0
 func Default() Config {
 	return Config{
 		DatacenterID: 0,
@@ -15,9 +14,7 @@ func Default() Config {
 	}
 }
 
-// NewConfig 创建新的配置
-// datacenterID 为数据中心ID，范围0-31
-// workerID 为工作节点ID，范围0-31
+// NewConfig 创建配置
 func NewConfig(datacenterID, workerID int64) Config {
 	return Config{
 		DatacenterID: datacenterID,

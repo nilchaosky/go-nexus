@@ -11,8 +11,6 @@ import (
 )
 
 // FormatFieldErrors 格式化字段校验错误
-// req 为校验的结构体，err 为validator返回的错误
-// 返回格式化后的错误信息字符串
 func FormatFieldErrors(req interface{}, err error) string {
 	if err == nil {
 		return ""

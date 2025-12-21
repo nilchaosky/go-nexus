@@ -21,8 +21,7 @@ func init() {
 	}
 }
 
-// Register 使用自定义配置注册Snowflake节点
-// config 为Snowflake配置
+// Register 注册Snowflake节点
 func Register(config Config) error {
 	var err error
 	sf, err = snowflake.NewSnowflake(config.DatacenterID, config.WorkerID)
@@ -33,8 +32,6 @@ func Register(config Config) error {
 }
 
 // GenerateID 生成全局唯一ID
-// 返回int64类型的唯一ID
-// 包加载时已自动初始化，通常不会返回错误
 func GenerateID() (int64, error) {
 	if sf == nil {
 		return 0, errors.New("Snowflake节点未初始化")
@@ -42,9 +39,7 @@ func GenerateID() (int64, error) {
 	return sf.NextVal(), nil
 }
 
-// GenerateSerializeInt64 生成全局唯一ID（SerializeInt64类型）
-// 返回SerializeInt64类型的唯一ID，支持Gin框架的JSON序列化
-// 包加载时已自动初始化，通常不会返回错误
+// GenerateSerializeInt64 生成SerializeInt64类型ID
 func GenerateSerializeInt64() (variant.SerializeInt64, error) {
 	if sf == nil {
 		return 0, errors.New("Snowflake节点未初始化")

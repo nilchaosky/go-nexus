@@ -16,8 +16,8 @@ type CustomCore struct {
 	minLevel zapcore.Level
 }
 
-// NewCustomCore 创建自定义 Core
-func NewCustomCore(encoder zapcore.Encoder, writer zapcore.WriteSyncer, minLevel zapcore.Level) *CustomCore {
+// newCustomCore 创建自定义 Core
+func newCustomCore(encoder zapcore.Encoder, writer zapcore.WriteSyncer, minLevel zapcore.Level) *CustomCore {
 	return &CustomCore{
 		encoder:  encoder,
 		writer:   writer,

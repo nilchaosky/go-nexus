@@ -119,7 +119,7 @@ func (c *Client) BRPopLPush(ctx context.Context, source, destination string, tim
 
 // BRPopLPushStruct 阻塞式从源列表右侧弹出元素并推入目标列表左侧，反序列化到结构体
 func (c *Client) BRPopLPushStruct(ctx context.Context, source, destination string, timeout time.Duration, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.BRPopLPush(ctx, source, destination, timeout)
 	})
 }
@@ -131,7 +131,7 @@ func (c *Client) LIndex(ctx context.Context, key string, index int64) (string, e
 
 // LIndexStruct 获取列表中指定索引的元素并反序列化到结构体
 func (c *Client) LIndexStruct(ctx context.Context, key string, index int64, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.LIndex(ctx, key, index)
 	})
 }
@@ -163,7 +163,7 @@ func (c *Client) LPop(ctx context.Context, key string) (string, error) {
 
 // LPopStruct 从列表左侧弹出元素并反序列化到结构体
 func (c *Client) LPopStruct(ctx context.Context, key string, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.LPop(ctx, key)
 	})
 }
@@ -175,7 +175,7 @@ func (c *Client) LPopCount(ctx context.Context, key string, count int) ([]string
 
 // LPopCountStruct 从列表左侧弹出N个元素并反序列化到结构体切片
 func (c *Client) LPopCountStruct(ctx context.Context, key string, count int, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.LPopCount(ctx, key, count)
 	})
 }
@@ -202,7 +202,7 @@ func (c *Client) LRange(ctx context.Context, key string, start, end int64) ([]st
 
 // LRangeStruct 获取列表中指定范围的元素并反序列化到结构体切片
 func (c *Client) LRangeStruct(ctx context.Context, key string, start, end int64, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.LRange(ctx, key, start, end)
 	})
 }
@@ -229,7 +229,7 @@ func (c *Client) RPop(ctx context.Context, key string) (string, error) {
 
 // RPopStruct 从列表右侧弹出元素并反序列化到结构体
 func (c *Client) RPopStruct(ctx context.Context, key string, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.RPop(ctx, key)
 	})
 }
@@ -241,7 +241,7 @@ func (c *Client) RPopCount(ctx context.Context, key string, count int) ([]string
 
 // RPopCountStruct 从列表右侧弹出N个元素并反序列化到结构体切片
 func (c *Client) RPopCountStruct(ctx context.Context, key string, count int, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.RPopCount(ctx, key, count)
 	})
 }
@@ -253,7 +253,7 @@ func (c *Client) RPopLPush(ctx context.Context, source, destination string) (str
 
 // RPopLPushStruct 从源列表右侧弹出元素并推入目标列表左侧，反序列化到结构体
 func (c *Client) RPopLPushStruct(ctx context.Context, source, destination string, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.RPopLPush(ctx, source, destination)
 	})
 }

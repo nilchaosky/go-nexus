@@ -14,7 +14,7 @@ var (
 
 // init 包加载时自动使用默认配置初始化Snowflake节点
 func init() {
-	config := Default()
+	config := defaultConfig()
 	var err error
 	sf, err = snowflake.NewSnowflake(config.DatacenterID, config.WorkerID)
 	if err != nil {

@@ -35,7 +35,7 @@ func FormatFieldErrors(req interface{}, err error) string {
 		displayName := formatFieldName(req, namespace, fieldName)
 
 		// 获取标签模板
-		template := GetTagTemplate(tag)
+		template := getTagTemplate(tag)
 
 		// 格式化错误消息
 		message := formatMessage(template, displayName, param, fieldError)

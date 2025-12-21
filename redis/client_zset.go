@@ -88,7 +88,7 @@ func (c *Client) ZRange(ctx context.Context, key string, start, end int64) ([]st
 
 // ZRangeStruct 获取有序集合中指定范围的成员（按分数排序），反序列化到结构体切片
 func (c *Client) ZRangeStruct(ctx context.Context, key string, start, end int64, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.ZRange(ctx, key, start, end)
 	})
 }
@@ -105,7 +105,7 @@ func (c *Client) ZRangeByScore(ctx context.Context, key string, opt *redis.ZRang
 
 // ZRangeByScoreStruct 获取有序集合中指定分数范围内的成员，反序列化到结构体切片
 func (c *Client) ZRangeByScoreStruct(ctx context.Context, key string, opt *redis.ZRangeBy, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.ZRangeByScore(ctx, key, opt)
 	})
 }
@@ -122,7 +122,7 @@ func (c *Client) ZRangeByLex(ctx context.Context, key string, opt *redis.ZRangeB
 
 // ZRangeByLexStruct 获取有序集合中指定字典序范围内的成员，反序列化到结构体切片
 func (c *Client) ZRangeByLexStruct(ctx context.Context, key string, opt *redis.ZRangeBy, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.ZRangeByLex(ctx, key, opt)
 	})
 }
@@ -159,7 +159,7 @@ func (c *Client) ZRevRange(ctx context.Context, key string, start, end int64) ([
 
 // ZRevRangeStruct 获取有序集合中指定范围的成员（按分数从高到低排序），反序列化到结构体切片
 func (c *Client) ZRevRangeStruct(ctx context.Context, key string, start, end int64, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.ZRevRange(ctx, key, start, end)
 	})
 }
@@ -176,7 +176,7 @@ func (c *Client) ZRevRangeByScore(ctx context.Context, key string, opt *redis.ZR
 
 // ZRevRangeByScoreStruct 获取有序集合中指定分数范围内的成员（按分数从高到低排序），反序列化到结构体切片
 func (c *Client) ZRevRangeByScoreStruct(ctx context.Context, key string, opt *redis.ZRangeBy, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.ZRevRangeByScore(ctx, key, opt)
 	})
 }

@@ -52,7 +52,7 @@ func (c *Client) SDiff(ctx context.Context, keys ...string) ([]string, error) {
 
 // SDiffStruct 获取多个集合的差集，反序列化到结构体切片
 func (c *Client) SDiffStruct(ctx context.Context, value interface{}, keys ...string) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.SDiff(ctx, keys...)
 	})
 }
@@ -69,7 +69,7 @@ func (c *Client) SInter(ctx context.Context, keys ...string) ([]string, error) {
 
 // SInterStruct 获取多个集合的交集，反序列化到结构体切片
 func (c *Client) SInterStruct(ctx context.Context, value interface{}, keys ...string) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.SInter(ctx, keys...)
 	})
 }
@@ -91,7 +91,7 @@ func (c *Client) SMembers(ctx context.Context, key string) ([]string, error) {
 
 // SMembersStruct 获取集合所有成员，反序列化到结构体切片
 func (c *Client) SMembersStruct(ctx context.Context, key string, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.SMembers(ctx, key)
 	})
 }
@@ -108,7 +108,7 @@ func (c *Client) SPop(ctx context.Context, key string) (string, error) {
 
 // SPopStruct 随机移除并返回集合中的一个成员，反序列化到结构体
 func (c *Client) SPopStruct(ctx context.Context, key string, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.SPop(ctx, key)
 	})
 }
@@ -120,7 +120,7 @@ func (c *Client) SPopN(ctx context.Context, key string, count int64) ([]string, 
 
 // SPopNStruct 随机移除并返回集合中的N个成员，反序列化到结构体切片
 func (c *Client) SPopNStruct(ctx context.Context, key string, count int64, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.SPopN(ctx, key, count)
 	})
 }
@@ -132,7 +132,7 @@ func (c *Client) SRandMember(ctx context.Context, key string) (string, error) {
 
 // SRandMemberStruct 随机返回集合中的一个成员（不移除），反序列化到结构体
 func (c *Client) SRandMemberStruct(ctx context.Context, key string, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.SRandMember(ctx, key)
 	})
 }
@@ -144,7 +144,7 @@ func (c *Client) SRandMemberN(ctx context.Context, key string, count int64) ([]s
 
 // SRandMemberNStruct 随机返回集合中的N个成员（不移除），反序列化到结构体切片
 func (c *Client) SRandMemberNStruct(ctx context.Context, key string, count int64, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.SRandMemberN(ctx, key, count)
 	})
 }
@@ -161,7 +161,7 @@ func (c *Client) SUnion(ctx context.Context, keys ...string) ([]string, error) {
 
 // SUnionStruct 获取多个集合的并集，反序列化到结构体切片
 func (c *Client) SUnionStruct(ctx context.Context, value interface{}, keys ...string) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.SUnion(ctx, keys...)
 	})
 }

@@ -6,8 +6,8 @@ type Config struct {
 	WorkerID     int64 `json:"worker_id" mapstructure:"worker_id" yaml:"worker_id"`             // 工作节点ID，范围0-31
 }
 
-// Default 返回默认配置
-func Default() Config {
+// defaultConfig 返回默认配置
+func defaultConfig() Config {
 	return Config{
 		DatacenterID: 0,
 		WorkerID:     0,

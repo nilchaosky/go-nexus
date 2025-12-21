@@ -60,7 +60,7 @@ func Register(config Config) error {
 	cores := make([]zapcore.Core, 0, len(levels))
 	for _, level := range levels {
 		// 创建自定义 Core，处理该级别及以上的日志
-		core := NewCustomCore(encoder, writeSyncer, level)
+		core := newCustomCore(encoder, writeSyncer, level)
 		cores = append(cores, core)
 	}
 

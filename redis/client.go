@@ -37,7 +37,7 @@ func (c *Client) Close() error {
 }
 
 // unmarshalValue 获取键值并反序列化到结构体
-func (c *Client) unmarshalValue(ctx context.Context, value interface{}, fn func() (string, error)) error {
+func (c *Client) unmarshalValue(value interface{}, fn func() (string, error)) error {
 	_, err := utils.IsPointer(value)
 	if err != nil {
 		return err
@@ -60,7 +60,7 @@ func (c *Client) unmarshalValue(ctx context.Context, value interface{}, fn func(
 }
 
 // unmarshalSlice 获取字符串切片并反序列化到结构体切片
-func (c *Client) unmarshalSlice(ctx context.Context, value interface{}, fn func() ([]string, error)) error {
+func (c *Client) unmarshalSlice(value interface{}, fn func() ([]string, error)) error {
 	rv, err := utils.IsSlice(value)
 	if err != nil {
 		return err

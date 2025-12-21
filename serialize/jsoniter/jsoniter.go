@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	json = jsoniter.ConfigCompatibleWithStandardLibrary
+	jsonInstance = jsoniter.ConfigCompatibleWithStandardLibrary
 )
 
 // Serializer JSON序列化器（使用json-iterator库）
@@ -16,7 +16,7 @@ type Serializer struct{}
 // v 为要序列化的数据
 // 返回JSON格式的字节数组和错误
 func (s *Serializer) Marshal(v interface{}) ([]byte, error) {
-	return json.Marshal(v)
+	return jsonInstance.Marshal(v)
 }
 
 // Unmarshal 将JSON字节数组反序列化为数据
@@ -24,7 +24,7 @@ func (s *Serializer) Marshal(v interface{}) ([]byte, error) {
 // v 为反序列化后的数据指针
 // 返回错误
 func (s *Serializer) Unmarshal(data []byte, v interface{}) error {
-	return json.Unmarshal(data, v)
+	return jsonInstance.Unmarshal(data, v)
 }
 
 // NewSerializer 创建新的JSON序列化器实例（使用json-iterator库）

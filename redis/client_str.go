@@ -101,7 +101,7 @@ func (c *Client) Get(ctx context.Context, key string) (string, error) {
 
 // GetStruct 获取键值并反序列化到结构体
 func (c *Client) GetStruct(ctx context.Context, key string, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.Get(ctx, key)
 	})
 }
@@ -188,7 +188,7 @@ func (c *Client) GetSet(ctx context.Context, key string, value interface{}) (str
 
 // GetSetStruct 获取旧值并设置新值，反序列化到结构体
 func (c *Client) GetSetStruct(ctx context.Context, key string, value interface{}, result interface{}) error {
-	return c.unmarshalValue(ctx, result, func() (string, error) {
+	return c.unmarshalValue(result, func() (string, error) {
 		return c.GetSet(ctx, key, value)
 	})
 }

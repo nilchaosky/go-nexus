@@ -48,7 +48,7 @@ func (c *Client) HGet(ctx context.Context, key, field string) (string, error) {
 
 // HGetStruct 获取哈希表中字段的值，反序列化到结构体
 func (c *Client) HGetStruct(ctx context.Context, key, field string, value interface{}) error {
-	return c.unmarshalValue(ctx, value, func() (string, error) {
+	return c.unmarshalValue(value, func() (string, error) {
 		return c.HGet(ctx, key, field)
 	})
 }
@@ -154,7 +154,7 @@ func (c *Client) HVals(ctx context.Context, key string) ([]string, error) {
 
 // HValsStruct 获取哈希表中所有值，反序列化到结构体切片
 func (c *Client) HValsStruct(ctx context.Context, key string, value interface{}) error {
-	return c.unmarshalSlice(ctx, value, func() ([]string, error) {
+	return c.unmarshalSlice(value, func() ([]string, error) {
 		return c.HVals(ctx, key)
 	})
 }

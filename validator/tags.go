@@ -147,15 +147,9 @@ func setCustomTemplates() {
 	}
 }
 
-// GetTagMap 获取标签映射表
-// 返回所有验证标签及其对应的格式化字符串模板
-func GetTagMap() map[string]string {
-	return tagMap
-}
-
-// GetTagTemplate 获取指定标签的格式化模板
+// getTagTemplate 获取指定标签的格式化模板
 // tag 为验证标签名称
-func GetTagTemplate(tag string) string {
+func getTagTemplate(tag string) string {
 	if template, exists := tagMap[tag]; exists {
 		return template
 	}

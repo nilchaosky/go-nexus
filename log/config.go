@@ -8,14 +8,14 @@ import (
 
 // Config 日志配置结构体
 type Config struct {
-	Level         string `json:"level"`          // 日志等级：debug, info, warn, error（默认：debug）
-	Encoder       string `json:"encoder"`        // 编码器类型：json, console（默认：console）
-	EncodeLevel   string `json:"encode_level"`   // 日志级别编码器：lowercase, lowercase_color, capital, capital_color（默认：lowercase）
-	Prefix        string `json:"prefix"`         // 日志前缀（默认：空）
-	OutputDir     string `json:"output_dir"`     // 日志输出目录（默认：logs）
-	ShowCaller    bool   `json:"show_caller"`    // 是否显示文件名和行号（默认：false）
-	ConsoleOutput bool   `json:"console_output"` // 是否同时输出到控制台（默认：false）
-	MaxAge        int    `json:"max_age"`        // 日志保留天数（默认：0，不清理）
+	Level         string `json:"level" mapstructure:"level" yaml:"level"`                            // 日志等级：debug, info, warn, error（默认：debug）
+	Encoder       string `json:"encoder" mapstructure:"encoder" yaml:"encoder"`                      // 编码器类型：json, console（默认：console）
+	EncodeLevel   string `json:"encode_level" mapstructure:"encode_level" yaml:"encode_level"`       // 日志级别编码器：lowercase, lowercase_color, capital, capital_color（默认：lowercase）
+	Prefix        string `json:"prefix" mapstructure:"prefix" yaml:"prefix"`                         // 日志前缀（默认：空）
+	OutputDir     string `json:"output_dir" mapstructure:"output_dir" yaml:"output_dir"`             // 日志输出目录（默认：logs）
+	ShowCaller    bool   `json:"show_caller" mapstructure:"show_caller" yaml:"show_caller"`          // 是否显示文件名和行号（默认：false）
+	ConsoleOutput bool   `json:"console_output" mapstructure:"console_output" yaml:"console_output"` // 是否同时输出到控制台（默认：false）
+	MaxAge        int    `json:"max_age" mapstructure:"max_age" yaml:"max_age"`                      // 日志保留天数（默认：0，不清理）
 }
 
 // getLevels 返回从指定级别到最高级别的所有级别

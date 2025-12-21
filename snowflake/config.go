@@ -2,8 +2,8 @@ package snowflake
 
 // Config Snowflake配置结构体
 type Config struct {
-	DatacenterID int64 `json:"datacenter_id"` // 数据中心ID，范围0-31
-	WorkerID     int64 `json:"worker_id"`     // 工作节点ID，范围0-31
+	DatacenterID int64 `json:"datacenter_id" mapstructure:"datacenter_id" yaml:"datacenter_id"` // 数据中心ID，范围0-31
+	WorkerID     int64 `json:"worker_id" mapstructure:"worker_id" yaml:"worker_id"`             // 工作节点ID，范围0-31
 }
 
 // Default 返回默认配置

@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/GUAIK-ORG/go-snowflake/snowflake"
+	"github.com/nilchaosky/go-nexus/serialize/variant"
 )
 
 var (
@@ -39,4 +40,18 @@ func GenerateID() (int64, error) {
 		return 0, errors.New("Snowflake节点未初始化")
 	}
 	return sf.NextVal(), nil
+}
+
+// GenerateSerializeInt64 生成全局唯一ID（SerializeInt64类型）
+// 返回SerializeInt64类型的唯一ID，支持Gin框架的JSON序列化
+// 包加载时已自动初始化，通常不会返回错误
+func GenerateSerializeInt64() (variant.SerializeInt64, error) {
+	if sf == nil {
+		return 0, errors.New("Snowflake节点未初始化")
+	}
+	id, err := GenerateID()
+	if err != nil {
+		return 0, err
+	}
+	return variant.NewSerializeInt64(id), nil
 }

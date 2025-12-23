@@ -12,7 +12,8 @@
 - **validator** - 数据验证工具，支持自定义错误消息
 - **viper** - 配置文件管理，支持配置合并
 - **serialize** - 序列化工具，支持 JSON、JSONIter、Protobuf
-- **model** - 数据模型，支持雪花 ID 和自增 ID
+- **model** - 数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库
+- **nexusenum** - 枚举模块，提供状态、标志、方法等枚举类型
 - **response** - 统一响应结构，支持泛型
 - **utils** - 工具函数集合（文件操作、结构体操作、加密等）
 
@@ -91,11 +92,15 @@ go get github.com/nilchaosky/go-nexus
 
 ### Model 模块
 
-数据模型，提供：
+数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库，提供：
 
-- `Snowflake` - 雪花 ID 主键模型
-- `AutoIncrement` - 自增 ID 主键模型
+- **ID 模型** - `Snowflake`（雪花 ID 主键）、`AutoIncrement`（自增 ID 主键，MySQL 和 PostgreSQL 支持）
+- **时间模型** - `Timestamps`（创建时间、更新时间）、`SoftDelete`（软删除）
+- **状态模型** - `Status`（状态字段，使用状态枚举）
+- **备注模型** - `Remark`（备注字段）
+- **乐观锁** - `OptimisticLock`（版本号字段）
 - 支持 GORM 和 JSON 序列化
+- 各数据库使用对应的类型标签，确保兼容性
 
 ### Response 模块
 
@@ -105,6 +110,16 @@ go get github.com/nilchaosky/go-nexus
 - 成功/错误响应
 - 分页响应
 - 类型安全的 nil 响应
+
+### NexusEnum 模块
+
+枚举模块，提供常用的枚举类型：
+
+- **Status** - 状态枚举（禁用、启用）
+- **Flag** - 标志枚举（否、是），支持与布尔值转换
+- **Method** - 方法枚举（GET、POST、PUT、DELETE、PATCH）
+
+所有枚举类型提供 `String()` 和 `Value()` 方法。
 
 ### Utils 模块
 

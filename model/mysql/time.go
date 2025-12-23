@@ -1,4 +1,4 @@
-package model
+package mysql
 
 import (
 	"github.com/nilchaosky/go-nexus/serialize/variant"
@@ -6,7 +6,6 @@ import (
 )
 
 // Timestamps 时间戳结构体
-// 提供创建时间和更新时间字段，使用SerializeTime变体类型
 type Timestamps struct {
 	CreatedAt variant.SerializeTime `json:"created_at" gorm:"column:created_at;type:datetime;comment:创建时间"`
 	UpdatedAt variant.SerializeTime `json:"updated_at" gorm:"column:updated_at;type:datetime;comment:更新时间"`

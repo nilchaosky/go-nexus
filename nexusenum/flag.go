@@ -1,7 +1,7 @@
 package nexusenum
 
 // Flag 标志枚举
-type Flag int
+type Flag int32
 
 const (
 	// FlagNo 否
@@ -23,8 +23,8 @@ func (f Flag) String() string {
 }
 
 // Value 返回标志值
-func (f Flag) Value() int {
-	return int(f)
+func (f Flag) Value() int32 {
+	return int32(f)
 }
 
 // Bool 转换为布尔值

@@ -1,7 +1,7 @@
 package nexusenum
 
 // Status 状态枚举
-type Status int
+type Status int32
 
 const (
 	// StatusDisabled 禁用状态
@@ -23,6 +23,6 @@ func (s Status) String() string {
 }
 
 // Value 返回状态值
-func (s Status) Value() int {
-	return int(s)
+func (s Status) Value() int32 {
+	return int32(s)
 }

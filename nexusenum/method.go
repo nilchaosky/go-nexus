@@ -1,40 +1,27 @@
 package nexusenum
 
 // Method 方法枚举
-type Method int
+type Method string
 
 const (
 	// MethodGet GET方法
-	MethodGet Method = 1
+	MethodGet Method = "GET"
 	// MethodPost POST方法
-	MethodPost Method = 2
+	MethodPost Method = "POST"
 	// MethodPut PUT方法
-	MethodPut Method = 3
+	MethodPut Method = "PUT"
 	// MethodDelete DELETE方法
-	MethodDelete Method = 4
+	MethodDelete Method = "DELETE"
 	// MethodPatch PATCH方法
-	MethodPatch Method = 5
+	MethodPatch Method = "PATCH"
 )
 
 // String 返回方法字符串
 func (m Method) String() string {
-	switch m {
-	case MethodGet:
-		return "GET"
-	case MethodPost:
-		return "POST"
-	case MethodPut:
-		return "PUT"
-	case MethodDelete:
-		return "DELETE"
-	case MethodPatch:
-		return "PATCH"
-	default:
-		return "未知"
-	}
+	return string(m)
 }
 
 // Value 返回方法值
-func (m Method) Value() int {
-	return int(m)
+func (m Method) Value() string {
+	return string(m)
 }

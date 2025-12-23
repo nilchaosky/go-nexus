@@ -6,7 +6,7 @@ import (
 
 // Snowflake 雪花ID主键结构体
 type Snowflake struct {
-	ID variant.SerializeInt64 `json:"id" gorm:"column:id;primaryKey;type:bigint;comment:ID"`
+	ID variant.SerializeInt64 `json:"id" gorm:"column:id;primaryKey;type:int8;comment:ID"`
 }
 
 // GetID 获取主键ID

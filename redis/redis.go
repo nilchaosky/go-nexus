@@ -40,8 +40,9 @@ func Register(config Config) error {
 	// 如果DB列表为空，直接注册到索引0，连接失败则报错
 	if len(config.DB) == 0 {
 		client := redis.NewClient(&redis.Options{
-			Addr: fmt.Sprintf("%s:%d", config.Address, config.Port),
-			DB:   0,
+			Addr:     fmt.Sprintf("%s:%d", config.Address, config.Port),
+			Password: config.Password,
+			DB:       0,
 		})
 
 		// 测试连接，失败则报错
@@ -66,8 +67,9 @@ func Register(config Config) error {
 		}
 
 		client := redis.NewClient(&redis.Options{
-			Addr: fmt.Sprintf("%s:%d", config.Address, config.Port),
-			DB:   db,
+			Addr:     fmt.Sprintf("%s:%d", config.Address, config.Port),
+			Password: config.Password,
+			DB:       db,
 		})
 
 		// 测试连接，失败则跳过

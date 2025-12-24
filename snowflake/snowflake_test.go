@@ -7,10 +7,7 @@ import (
 // TestGenerateID_Single 测试生成单个ID功能
 func TestGenerateID_Single(t *testing.T) {
 	// 测试生成ID
-	id, err := GenerateID()
-	if err != nil {
-		t.Fatalf("生成ID失败: %v", err)
-	}
+	id := GenerateID()
 
 	// 输出生成的ID
 	t.Logf("生成的ID: %d", id)
@@ -28,10 +25,7 @@ func TestGenerateID_Multiple(t *testing.T) {
 	count := 100
 
 	for i := 0; i < count; i++ {
-		newID, err := GenerateID()
-		if err != nil {
-			t.Fatalf("生成ID失败: %v", err)
-		}
+		newID := GenerateID()
 
 		// 输出生成的ID
 		t.Logf("第%d个生成的ID: %d", i+1, newID)

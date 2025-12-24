@@ -1,7 +1,6 @@
 package snowflake
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/GUAIK-ORG/go-snowflake/snowflake"
@@ -33,21 +32,15 @@ func Register(config Config) error {
 }
 
 // GenerateID 生成全局唯一ID
-func GenerateID() (int64, error) {
+func GenerateID() int64 {
 	if sf == nil {
-		return 0, errors.New("节点未初始化")
+		panic("节点未初始化")
 	}
-	return sf.NextVal(), nil
+	return sf.NextVal()
 }
 
 // GenerateSerializeInt64 生成SerializeInt64类型ID
-func GenerateSerializeInt64() (variant.SerializeInt64, error) {
-	if sf == nil {
-		return 0, errors.New("节点未初始化")
-	}
-	id, err := GenerateID()
-	if err != nil {
-		return 0, err
-	}
-	return variant.NewSerializeInt64(id), nil
+func GenerateSerializeInt64() variant.SerializeInt64 {
+	id := GenerateID()
+	return variant.NewSerializeInt64(id)
 }

@@ -47,8 +47,11 @@ func Register(config Config) error {
 	// 获取编码器
 	encoder := config.encoder()
 
-	// 获取日志级别列表
-	levels := config.getLevels()
+	// 获取最小日志级别
+	minLevel, err := zapcore.ParseLevel(config.Level)
+	if err != nil {
+		minLevel = zapcore.DebugLevel
+	}
 
 	// 创建写入器（所有级别共享同一个文件）
 	writeSyncer, err := createWriteSyncer(outputDir, config.ConsoleOutput)
@@ -56,16 +59,8 @@ func Register(config Config) error {
 		return err
 	}
 
-	// 创建多个 Core，每个级别一个
-	cores := make([]zapcore.Core, 0, len(levels))
-	for _, level := range levels {
-		// 创建自定义 Core，处理该级别及以上的日志
-		core := newCustomCore(encoder, writeSyncer, level)
-		cores = append(cores, core)
-	}
-
-	// 合并所有 Core
-	core := zapcore.NewTee(cores...)
+	// 创建单个 Core，使用最小级别过滤
+	core := newCustomCore(encoder, writeSyncer, minLevel)
 
 	// 创建日志选项
 	var opts []zap.Option

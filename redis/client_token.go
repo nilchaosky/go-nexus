@@ -19,9 +19,9 @@ var (
 type Token interface {
 	GetUserTokenKey(id string) (string, error)
 	GetToken(ctx context.Context, id string) (string, string)
-	SaveToken(ctx context.Context, id, tokenValue, refreshTokenValue string, expiration time.Duration) error
+	SaveToken(ctx context.Context, id, tokenValue, refreshTokenValue string, expiration, refreshExpiration time.Duration) error
 	DeleteToken(ctx context.Context, id string) error
-	RefreshToken(ctx context.Context, id string, oldToken string, oldRefreshToken string, config token.Config) error
+	VerifyRefreshToken(ctx context.Context, id, oldToken, oldRefreshToken, secret string) error
 }
 
 // GetUserTokenKey 获取用户Token Key
@@ -58,7 +58,7 @@ func (c *Client) GetToken(ctx context.Context, id string) (string, string) {
 }
 
 // SaveToken 保存Token
-func (c *Client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValue string, expiration time.Duration) error {
+func (c *Client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValue string, expiration, refreshExpiration time.Duration) error {
 	// 获取用户Token Key
 	key, err := c.GetUserTokenKey(id)
 	if err != nil {
@@ -67,11 +67,11 @@ func (c *Client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValu
 	tokenKey := key + ":" + tokenRedisKey
 	refreshTokenKey := key + ":" + refreshTokenRedisKey
 
-	// 保存Token和RefreshToken
+	// 保存Token和RefreshToken，使用不同的过期时间
 	if err := c.SetEX(ctx, tokenKey, tokenValue, expiration); err != nil {
 		return fmt.Errorf("保存Token失败: %w", err)
 	}
-	if err := c.SetEX(ctx, refreshTokenKey, refreshTokenValue, expiration); err != nil {
+	if err := c.SetEX(ctx, refreshTokenKey, refreshTokenValue, refreshExpiration); err != nil {
 		return fmt.Errorf("保存RefreshToken失败: %w", err)
 	}
 
@@ -99,15 +99,15 @@ func (c *Client) DeleteToken(ctx context.Context, id string) error {
 	return nil
 }
 
-// RefreshToken 刷新Token
-func (c *Client) RefreshToken(ctx context.Context, id string, oldToken string, oldRefreshToken string, config token.Config) error {
+// VerifyRefreshToken 验证刷新Token
+func (c *Client) VerifyRefreshToken(ctx context.Context, id, oldToken, oldRefreshToken, secret string) error {
 	// 验证oldToken和oldRefreshToken是否为空
 	if oldToken == "" || oldRefreshToken == "" {
 		return errors.New("token丢失")
 	}
 
 	// 从旧的Token中获取额外参数
-	extra, err := token.GetExtra(config, oldToken)
+	extra, err := token.GetExtra(secret, oldToken)
 	if err != nil {
 		return errors.New("token解析失败")
 	}
@@ -118,7 +118,7 @@ func (c *Client) RefreshToken(ctx context.Context, id string, oldToken string, o
 	}
 
 	// 验证旧的oldToken
-	if err := token.Verify(config, oldToken); err != nil {
+	if err := token.Verify(secret, oldToken); err != nil {
 		return fmt.Errorf("刷新Token验证失败: %w", err)
 	}
 
@@ -128,20 +128,6 @@ func (c *Client) RefreshToken(ctx context.Context, id string, oldToken string, o
 	// 验证刷新Token是否一致
 	if refreshTokenValue != oldRefreshToken {
 		return errors.New("刷新Token无效")
-	}
-
-	// 生成新的Token和RefreshToken
-	tokenValue, refreshTokenValue, err := token.Generate(config, id, extra)
-	if err != nil {
-		return fmt.Errorf("生成Token失败: %w", err)
-	}
-
-	// 使用config中的过期时间（将天数转换为Duration）
-	expiration := time.Duration(config.Expiration) * 24 * time.Hour
-
-	// 使用SaveToken方法保存新的Token和RefreshToken
-	if err := c.SaveToken(ctx, id, tokenValue, refreshTokenValue, expiration); err != nil {
-		return err
 	}
 
 	return nil

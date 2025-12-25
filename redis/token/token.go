@@ -46,8 +46,8 @@ func Generate(config Config, id string, extra map[string]interface{}) (string, s
 }
 
 // Verify 验证Token
-func Verify(config Config, tokenString string) error {
-	if config.Secret == "" {
+func Verify(secret, tokenString string) error {
+	if secret == "" {
 		return errors.New("密钥不能为空")
 	}
 
@@ -57,7 +57,7 @@ func Verify(config Config, tokenString string) error {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("不支持的签名方法: %v", token.Header["alg"])
 		}
-		return []byte(config.Secret), nil
+		return []byte(secret), nil
 	}, jwt.WithExpirationRequired())
 
 	if err != nil {
@@ -73,8 +73,8 @@ func Verify(config Config, tokenString string) error {
 }
 
 // GetExtra 获取Token中的额外参数
-func GetExtra(config Config, tokenString string) (map[string]interface{}, error) {
-	if config.Secret == "" {
+func GetExtra(secret, tokenString string) (map[string]interface{}, error) {
+	if secret == "" {
 		return nil, errors.New("密钥不能为空")
 	}
 
@@ -84,7 +84,7 @@ func GetExtra(config Config, tokenString string) (map[string]interface{}, error)
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("不支持的签名方法: %v", token.Header["alg"])
 		}
-		return []byte(config.Secret), nil
+		return []byte(secret), nil
 	})
 
 	if err != nil {

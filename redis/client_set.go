@@ -2,8 +2,6 @@ package redis
 
 import (
 	"context"
-
-	"github.com/redis/go-redis/v9"
 )
 
 // Set 集合操作接口
@@ -32,7 +30,7 @@ type Set interface {
 	SUnion(ctx context.Context, keys ...string) ([]string, error)
 	SUnionStruct(ctx context.Context, value interface{}, keys ...string) error
 	SUnionStore(ctx context.Context, destination string, keys ...string) (int64, error)
-	SSCan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd
+	SSCan(ctx context.Context, key string, cursor uint64, match string, count int64) ([]string, uint64, error)
 }
 
 // SAdd 向集合添加成员
@@ -172,6 +170,6 @@ func (c *Client) SUnionStore(ctx context.Context, destination string, keys ...st
 }
 
 // SSCan 扫描集合成员
-func (c *Client) SSCan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd {
-	return c.UniversalClient.SScan(ctx, key, cursor, match, count)
+func (c *Client) SSCan(ctx context.Context, key string, cursor uint64, match string, count int64) ([]string, uint64, error) {
+	return c.UniversalClient.SScan(ctx, key, cursor, match, count).Result()
 }

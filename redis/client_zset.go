@@ -38,7 +38,7 @@ type ZSet interface {
 	ZRevRank(ctx context.Context, key, member string) (int64, error)
 	ZScore(ctx context.Context, key, member string) (float64, error)
 	ZUnionStore(ctx context.Context, destination string, store *redis.ZStore) (int64, error)
-	ZScan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd
+	ZScan(ctx context.Context, key string, cursor uint64, match string, count int64) ([]string, uint64, error)
 }
 
 // ZAdd 向有序集合添加成员
@@ -202,6 +202,6 @@ func (c *Client) ZUnionStore(ctx context.Context, destination string, store *red
 }
 
 // ZScan 扫描有序集合
-func (c *Client) ZScan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd {
-	return c.UniversalClient.ZScan(ctx, key, cursor, match, count)
+func (c *Client) ZScan(ctx context.Context, key string, cursor uint64, match string, count int64) ([]string, uint64, error) {
+	return c.UniversalClient.ZScan(ctx, key, cursor, match, count).Result()
 }

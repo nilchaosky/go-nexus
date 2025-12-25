@@ -42,13 +42,13 @@ func (c *Client) GetToken(ctx context.Context, id string) (string, string) {
 	tokenKey := key + ":" + tokenRedisKey
 	refreshTokenKey := key + ":" + refreshTokenRedisKey
 
-	// 从Redis获取Token
+	// 获取Token
 	tokenValue, err := c.Get(ctx, tokenKey)
 	if err != nil {
 		return "", ""
 	}
 
-	// 从Redis获取RefreshToken
+	// 获取RefreshToken
 	refreshTokenValue, err := c.Get(ctx, refreshTokenKey)
 	if err != nil {
 		return "", ""
@@ -57,7 +57,7 @@ func (c *Client) GetToken(ctx context.Context, id string) (string, string) {
 	return tokenValue, refreshTokenValue
 }
 
-// SaveToken 保存Token到Redis
+// SaveToken 保存Token
 func (c *Client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValue string, expiration time.Duration) error {
 	// 获取用户Token Key
 	key, err := c.GetUserTokenKey(id)
@@ -67,11 +67,11 @@ func (c *Client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValu
 	tokenKey := key + ":" + tokenRedisKey
 	refreshTokenKey := key + ":" + refreshTokenRedisKey
 
-	// 保存Token和RefreshToken到Redis
-	if err := c.SetEX(ctx, tokenKey, tokenValue, expiration).Err(); err != nil {
+	// 保存Token和RefreshToken
+	if err := c.SetEX(ctx, tokenKey, tokenValue, expiration); err != nil {
 		return fmt.Errorf("保存Token失败: %w", err)
 	}
-	if err := c.SetEX(ctx, refreshTokenKey, refreshTokenValue, expiration).Err(); err != nil {
+	if err := c.SetEX(ctx, refreshTokenKey, refreshTokenValue, expiration); err != nil {
 		return fmt.Errorf("保存RefreshToken失败: %w", err)
 	}
 
@@ -117,20 +117,12 @@ func (c *Client) RefreshToken(ctx context.Context, id string, oldToken string, o
 		return errors.New("无效的Token")
 	}
 
-	// 获取用户Token Key
-	key, err := c.GetUserTokenKey(id)
-	if err != nil {
-		return err
-	}
-	tokenKey := key + ":" + tokenRedisKey
-	refreshTokenKey := key + ":" + refreshTokenRedisKey
-
 	// 验证旧的oldToken
 	if err := token.Verify(config, oldToken); err != nil {
 		return fmt.Errorf("刷新Token验证失败: %w", err)
 	}
 
-	// 从Redis获取Token和RefreshToken
+	// 获取Token和RefreshToken
 	_, refreshTokenValue := c.GetToken(ctx, id)
 
 	// 验证刷新Token是否一致
@@ -147,12 +139,9 @@ func (c *Client) RefreshToken(ctx context.Context, id string, oldToken string, o
 	// 使用config中的过期时间（将天数转换为Duration）
 	expiration := time.Duration(config.Expiration) * 24 * time.Hour
 
-	// 保存新的Token和RefreshToken到Redis
-	if err := c.SetEX(ctx, tokenKey, tokenValue, expiration).Err(); err != nil {
-		return fmt.Errorf("保存Token失败: %w", err)
-	}
-	if err := c.SetEX(ctx, refreshTokenKey, refreshTokenValue, expiration).Err(); err != nil {
-		return fmt.Errorf("保存RefreshToken失败: %w", err)
+	// 使用SaveToken方法保存新的Token和RefreshToken
+	if err := c.SaveToken(ctx, id, tokenValue, refreshTokenValue, expiration); err != nil {
+		return err
 	}
 
 	return nil

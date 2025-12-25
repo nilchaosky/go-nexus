@@ -6,7 +6,6 @@ import (
 
 	"github.com/nilchaosky/go-nexus/serialize"
 	"github.com/nilchaosky/go-nexus/utils"
-	"github.com/redis/go-redis/v9"
 )
 
 // Hash 哈希表操作接口
@@ -28,7 +27,7 @@ type Hash interface {
 	HStrLen(ctx context.Context, key, field string) (int64, error)
 	HVals(ctx context.Context, key string) ([]string, error)
 	HValsStruct(ctx context.Context, key string, value interface{}) error
-	HScan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd
+	HScan(ctx context.Context, key string, cursor uint64, match string, count int64) ([]string, uint64, error)
 }
 
 // HDel 删除哈希表中的字段
@@ -160,6 +159,6 @@ func (c *Client) HValsStruct(ctx context.Context, key string, value interface{})
 }
 
 // HScan 扫描哈希表
-func (c *Client) HScan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd {
-	return c.UniversalClient.HScan(ctx, key, cursor, match, count)
+func (c *Client) HScan(ctx context.Context, key string, cursor uint64, match string, count int64) ([]string, uint64, error) {
+	return c.UniversalClient.HScan(ctx, key, cursor, match, count).Result()
 }

@@ -10,18 +10,18 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// Client Redis客户端包装结构体
+// Client 客户端包装结构体
 // 实现了 Generic、String、List、Set、Hash、ZSet 接口
 type Client struct {
 	redis.UniversalClient
 }
 
-// NewClient 创建Redis客户端
+// NewClient 创建客户端
 func NewClient(client redis.UniversalClient) *Client {
 	return &Client{UniversalClient: client}
 }
 
-// GetRawClient 获取原始Redis客户端
+// GetRawClient 获取原始客户端
 func (c *Client) GetRawClient() redis.UniversalClient {
 	return c.UniversalClient
 }

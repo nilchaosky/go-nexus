@@ -8,7 +8,6 @@ import (
 
 	"github.com/nilchaosky/go-nexus/serialize"
 	"github.com/nilchaosky/go-nexus/utils"
-	"github.com/redis/go-redis/v9"
 )
 
 // String 字符串操作接口
@@ -16,12 +15,12 @@ type String interface {
 	Cache(ctx context.Context, key string, value interface{}, expiration time.Duration, fn func() (interface{}, error)) error
 	Get(ctx context.Context, key string) (string, error)
 	GetStruct(ctx context.Context, key string, value interface{}) error
-	Set(ctx context.Context, key string, value interface{}) *redis.StatusCmd
-	SetEX(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.StatusCmd
-	SetNX(ctx context.Context, key string, value interface{}) *redis.BoolCmd
-	SetNXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.BoolCmd
-	SetXX(ctx context.Context, key string, value interface{}) *redis.BoolCmd
-	SetXXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.BoolCmd
+	Set(ctx context.Context, key string, value interface{}) error
+	SetEX(ctx context.Context, key string, value interface{}, expiration time.Duration) error
+	SetNX(ctx context.Context, key string, value interface{}) (bool, error)
+	SetNXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error)
+	SetXX(ctx context.Context, key string, value interface{}) (bool, error)
+	SetXXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error)
 	Append(ctx context.Context, key, value string) (int64, error)
 	StrLen(ctx context.Context, key string) (int64, error)
 	GetRange(ctx context.Context, key string, start, end int64) (string, error)
@@ -83,7 +82,7 @@ func (c *Client) Cache(ctx context.Context, key string, value interface{}, expir
 	}
 
 	// 缓存数据
-	if err := c.SetEX(ctx, key, string(jsonData), expiration).Err(); err != nil {
+	if err := c.SetEX(ctx, key, string(jsonData), expiration); err != nil {
 		return err
 	}
 
@@ -107,33 +106,33 @@ func (c *Client) GetStruct(ctx context.Context, key string, value interface{}) e
 }
 
 // Set 设置键值（不过期）
-func (c *Client) Set(ctx context.Context, key string, value interface{}) *redis.StatusCmd {
-	return c.UniversalClient.Set(ctx, key, value, 0)
+func (c *Client) Set(ctx context.Context, key string, value interface{}) error {
+	return c.UniversalClient.Set(ctx, key, value, 0).Err()
 }
 
 // SetEX 设置键值（带过期时间）
-func (c *Client) SetEX(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.StatusCmd {
-	return c.UniversalClient.Set(ctx, key, value, expiration)
+func (c *Client) SetEX(ctx context.Context, key string, value interface{}, expiration time.Duration) error {
+	return c.UniversalClient.Set(ctx, key, value, expiration).Err()
 }
 
 // SetNX 仅在key不存在时设置（不过期）
-func (c *Client) SetNX(ctx context.Context, key string, value interface{}) *redis.BoolCmd {
-	return c.UniversalClient.SetNX(ctx, key, value, 0)
+func (c *Client) SetNX(ctx context.Context, key string, value interface{}) (bool, error) {
+	return c.UniversalClient.SetNX(ctx, key, value, 0).Result()
 }
 
 // SetNXEX 仅在key不存在时设置（带过期时间）
-func (c *Client) SetNXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.BoolCmd {
-	return c.UniversalClient.SetNX(ctx, key, value, expiration)
+func (c *Client) SetNXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error) {
+	return c.UniversalClient.SetNX(ctx, key, value, expiration).Result()
 }
 
 // SetXX 仅在key存在时设置（不过期）
-func (c *Client) SetXX(ctx context.Context, key string, value interface{}) *redis.BoolCmd {
-	return c.UniversalClient.SetXX(ctx, key, value, 0)
+func (c *Client) SetXX(ctx context.Context, key string, value interface{}) (bool, error) {
+	return c.UniversalClient.SetXX(ctx, key, value, 0).Result()
 }
 
 // SetXXEX 仅在key存在时设置（带过期时间）
-func (c *Client) SetXXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) *redis.BoolCmd {
-	return c.UniversalClient.SetXX(ctx, key, value, expiration)
+func (c *Client) SetXXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error) {
+	return c.UniversalClient.SetXX(ctx, key, value, expiration).Result()
 }
 
 // Append 追加字符串到键值

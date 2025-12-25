@@ -3,11 +3,9 @@ package redis
 import (
 	"context"
 	"time"
-
-	"github.com/redis/go-redis/v9"
 )
 
-// Generic 通用Redis操作接口
+// Generic 通用操作接口
 type Generic interface {
 	Del(ctx context.Context, keys ...string) (int64, error)
 	Exists(ctx context.Context, keys ...string) (int64, error)
@@ -17,7 +15,7 @@ type Generic interface {
 	PTTL(ctx context.Context, key string) (time.Duration, error)
 	Persist(ctx context.Context, key string) (bool, error)
 	Keys(ctx context.Context, pattern string) ([]string, error)
-	Scan(ctx context.Context, cursor uint64, match string, count int64) *redis.ScanCmd
+	Scan(ctx context.Context, cursor uint64, match string, count int64) ([]string, uint64, error)
 	Type(ctx context.Context, key string) (string, error)
 	Rename(ctx context.Context, key, newKey string) error
 	RenameNX(ctx context.Context, key, newKey string) (bool, error)
@@ -69,8 +67,8 @@ func (c *Client) Keys(ctx context.Context, pattern string) ([]string, error) {
 }
 
 // Scan 扫描键（推荐使用，避免阻塞）
-func (c *Client) Scan(ctx context.Context, cursor uint64, match string, count int64) *redis.ScanCmd {
-	return c.UniversalClient.Scan(ctx, cursor, match, count)
+func (c *Client) Scan(ctx context.Context, cursor uint64, match string, count int64) ([]string, uint64, error) {
+	return c.UniversalClient.Scan(ctx, cursor, match, count).Result()
 }
 
 // Type 获取键的类型

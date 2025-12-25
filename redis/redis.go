@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	// Clients Redis客户端列表
+	// Clients 客户端列表
 	Clients []*Client
 	// index 默认客户端索引（默认：0）
 	index int
@@ -20,19 +20,19 @@ var (
 // init 包加载时自动初始化
 func init() {
 	index = 0
-	// Redis默认最大数据库数量为16（0-15）
+	// 默认最大数据库数量为16（0-15）
 	Clients = make([]*Client, 16)
 }
 
-// Register 注册Redis客户端
+// Register 注册客户端
 func Register(config Config) error {
 	// 验证地址和端口
 	if config.Address == "" {
-		return errors.New("redis地址不能为空")
+		return errors.New("地址不能为空")
 	}
 
 	if config.Port == 0 {
-		return errors.New("redis端口不能为空")
+		return errors.New("端口不能为空")
 	}
 
 	ctx := context.Background()
@@ -47,7 +47,7 @@ func Register(config Config) error {
 
 		// 测试连接，失败则报错
 		if err := client.Ping(ctx).Err(); err != nil {
-			return fmt.Errorf("redis数据库0连接失败: %w", err)
+			return fmt.Errorf("数据库0连接失败: %w", err)
 		}
 
 		Clients[0] = NewClient(client)
@@ -58,7 +58,7 @@ func Register(config Config) error {
 	for _, db := range config.DB {
 		// 验证数据库编号范围，超出范围则跳过
 		if db < 0 || db >= len(Clients) {
-			log.Logger.Warn("redis数据库超出范围，已跳过",
+			log.Logger.Warn("数据库超出范围，已跳过",
 				zap.Int("db", db),
 				zap.Int("min", 0),
 				zap.Int("max", len(Clients)-1),
@@ -74,7 +74,7 @@ func Register(config Config) error {
 
 		// 测试连接，失败则跳过
 		if err := client.Ping(ctx).Err(); err != nil {
-			log.Logger.Warn("redis数据库连接失败，已跳过",
+			log.Logger.Warn("数据库连接失败，已跳过",
 				zap.Int("db", db),
 				zap.Error(err),
 			)
@@ -88,7 +88,7 @@ func Register(config Config) error {
 	return nil
 }
 
-// GetClient 获取指定数据库的Redis客户端
+// GetClient 获取指定数据库的客户端
 func GetClient(db int) (*Client, error) {
 	if db < 0 || db >= len(Clients) {
 		return nil, fmt.Errorf("数据库编号%d超出范围（0-%d）", db, len(Clients)-1)
@@ -105,13 +105,13 @@ func GetClient(db int) (*Client, error) {
 // SetIndex 设置默认客户端索引
 func SetIndex(i int) error {
 	if i < 0 || i >= len(Clients) {
-		return errors.New("redis数据库超出范围")
+		return errors.New("数据库超出范围")
 	}
 	index = i
 	return nil
 }
 
-// GetDefaultClient 获取默认Redis客户端（使用index索引）
+// GetDefaultClient 获取默认客户端（使用index索引）
 func GetDefaultClient() (*Client, error) {
 	client := Clients[index]
 	if client == nil {

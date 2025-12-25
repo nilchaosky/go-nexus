@@ -9,7 +9,7 @@ import (
 )
 
 // Generate 生成Token
-func Generate(config Config, extra map[string]interface{}) (string, string, error) {
+func Generate(config Config, id string, extra map[string]interface{}) (string, string, error) {
 	if err := config.validate(); err != nil {
 		return "", "", err
 	}
@@ -22,6 +22,7 @@ func Generate(config Config, extra map[string]interface{}) (string, string, erro
 		"iss": config.Issuer,
 		"iat": now.Unix(),
 		"exp": expiresAt.Unix(),
+		"id":  id,
 	}
 
 	// 将额外参数添加到Claims

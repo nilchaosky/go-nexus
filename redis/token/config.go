@@ -28,8 +28,5 @@ func (c *Config) validate() error {
 	if c.Duration <= 0 {
 		return errors.New("过期时间必须大于0")
 	}
-	if c.RefreshDuration <= 0 {
-		return errors.New("刷新时间必须大于0")
-	}
 	return nil
 }

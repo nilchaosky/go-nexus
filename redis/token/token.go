@@ -15,8 +15,8 @@ func Generate(config Config, id string, extra map[string]interface{}) (string, s
 	}
 
 	now := time.Now()
-	durationAt := now.Add(config.Duration)
-	refreshDurationAt := now.Add(config.RefreshDuration)
+	durationAt := now.Add(time.Duration(config.Duration) * time.Hour)
+	refreshDurationAt := now.Add(time.Duration(config.RefreshDuration) * time.Hour)
 
 	// 创建Access Token Claims
 	accessClaims := jwt.MapClaims{

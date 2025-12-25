@@ -1,9 +1,6 @@
 package token
 
-import (
-	"errors"
-	"time"
-)
+import "errors"
 
 // Config Token配置
 type Config struct {
@@ -11,10 +8,10 @@ type Config struct {
 	Secret string `json:"secret" mapstructure:"secret" yaml:"secret"`
 	// Issuer 签发者
 	Issuer string `json:"issuer" mapstructure:"issuer" yaml:"issuer"`
-	// Duration 过期时间
-	Duration time.Duration `json:"duration" mapstructure:"duration" yaml:"duration"`
-	// RefreshDuration 刷新时间
-	RefreshDuration time.Duration `json:"refresh_duration" mapstructure:"refresh_duration" yaml:"refresh_duration"`
+	// Duration 过期时间（小时）
+	Duration int `json:"duration" mapstructure:"duration" yaml:"duration"`
+	// RefreshDuration 刷新时间（小时）
+	RefreshDuration int `json:"refresh_duration" mapstructure:"refresh_duration" yaml:"refresh_duration"`
 }
 
 // validate 验证配置

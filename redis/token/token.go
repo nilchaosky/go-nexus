@@ -15,13 +15,14 @@ func Generate(config Config, id string, extra map[string]interface{}) (string, s
 	}
 
 	now := time.Now()
-	expiresAt := now.AddDate(0, 0, config.Expiration)
+	durationAt := now.Add(config.Duration)
+	refreshDurationAt := now.Add(config.RefreshDuration)
 
 	// 创建Access Token Claims
 	accessClaims := jwt.MapClaims{
 		"iss": config.Issuer,
 		"iat": now.Unix(),
-		"exp": expiresAt.Unix(),
+		"exp": durationAt.Unix(),
 		"id":  id,
 	}
 
@@ -40,7 +41,7 @@ func Generate(config Config, id string, extra map[string]interface{}) (string, s
 	}
 
 	// 格式化过期时间为字符串
-	refreshToken := expiresAt.Format(time.DateTime)
+	refreshToken := refreshDurationAt.Format(time.DateTime)
 
 	return accessToken, refreshToken, nil
 }

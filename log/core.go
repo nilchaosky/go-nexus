@@ -9,16 +9,16 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-// CustomCore 自定义 Core 实现
-type CustomCore struct {
+// customCore 自定义 Core 实现
+type customCore struct {
 	encoder  zapcore.Encoder
 	writer   zapcore.WriteSyncer
 	minLevel zapcore.Level
 }
 
 // newCustomCore 创建自定义 Core
-func newCustomCore(encoder zapcore.Encoder, writer zapcore.WriteSyncer, minLevel zapcore.Level) *CustomCore {
-	return &CustomCore{
+func newCustomCore(encoder zapcore.Encoder, writer zapcore.WriteSyncer, minLevel zapcore.Level) *customCore {
+	return &customCore{
 		encoder:  encoder,
 		writer:   writer,
 		minLevel: minLevel,
@@ -26,17 +26,17 @@ func newCustomCore(encoder zapcore.Encoder, writer zapcore.WriteSyncer, minLevel
 }
 
 // Enabled 判断级别是否启用
-func (c *CustomCore) Enabled(level zapcore.Level) bool {
+func (c *customCore) Enabled(level zapcore.Level) bool {
 	return level >= c.minLevel
 }
 
 // With 添加字段
-func (c *CustomCore) With(fields []zapcore.Field) zapcore.Core {
+func (c *customCore) With(fields []zapcore.Field) zapcore.Core {
 	encoder := c.encoder.Clone()
 	for _, field := range fields {
 		field.AddTo(encoder)
 	}
-	return &CustomCore{
+	return &customCore{
 		encoder:  encoder,
 		writer:   c.writer,
 		minLevel: c.minLevel,
@@ -44,7 +44,7 @@ func (c *CustomCore) With(fields []zapcore.Field) zapcore.Core {
 }
 
 // Check 检查并准备写入
-func (c *CustomCore) Check(entry zapcore.Entry, checkedEntry *zapcore.CheckedEntry) *zapcore.CheckedEntry {
+func (c *customCore) Check(entry zapcore.Entry, checkedEntry *zapcore.CheckedEntry) *zapcore.CheckedEntry {
 	if c.Enabled(entry.Level) {
 		return checkedEntry.AddCore(entry, c)
 	}
@@ -52,7 +52,7 @@ func (c *CustomCore) Check(entry zapcore.Entry, checkedEntry *zapcore.CheckedEnt
 }
 
 // Write 写入日志
-func (c *CustomCore) Write(entry zapcore.Entry, fields []zapcore.Field) error {
+func (c *customCore) Write(entry zapcore.Entry, fields []zapcore.Field) error {
 	buf, err := c.encoder.EncodeEntry(entry, fields)
 	if err != nil {
 		return err
@@ -63,7 +63,7 @@ func (c *CustomCore) Write(entry zapcore.Entry, fields []zapcore.Field) error {
 }
 
 // Sync 同步写入
-func (c *CustomCore) Sync() error {
+func (c *customCore) Sync() error {
 	return c.writer.Sync()
 }
 

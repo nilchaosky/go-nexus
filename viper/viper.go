@@ -2,7 +2,6 @@ package viper
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/spf13/viper"
 )
@@ -20,49 +19,9 @@ func Register[T any](path string, config *T) error {
 		return fmt.Errorf("读取配置文件失败: %w", err)
 	}
 
-	// 读取配置文件到临时变量
-	var fileConfig T
-	if err := v.Unmarshal(&fileConfig); err != nil {
+	// 直接反序列化到config
+	if err := v.Unmarshal(config); err != nil {
 		return fmt.Errorf("解析配置失败: %w", err)
-	}
-
-	// 使用反射合并配置，只替换零值字段
-	if err := mergeConfig(config, &fileConfig); err != nil {
-		return fmt.Errorf("合并配置失败: %w", err)
-	}
-
-	return nil
-}
-
-// mergeConfig 合并配置，只替换零值字段
-func mergeConfig(dst, src interface{}) error {
-	dstValue := reflect.ValueOf(dst)
-	srcValue := reflect.ValueOf(src)
-
-	// 确保都是指针类型
-	if dstValue.Kind() != reflect.Ptr || srcValue.Kind() != reflect.Ptr {
-		return fmt.Errorf("参数必须是指针类型")
-	}
-
-	// 获取元素值
-	dstElem := dstValue.Elem()
-	srcElem := srcValue.Elem()
-
-	// 确保都是结构体类型
-	if dstElem.Kind() != reflect.Struct || srcElem.Kind() != reflect.Struct {
-		return fmt.Errorf("参数必须是结构体类型")
-	}
-
-	// 遍历所有字段
-	dstType := dstElem.Type()
-	for i := 0; i < dstType.NumField(); i++ {
-		dstField := dstElem.Field(i)
-		srcField := srcElem.Field(i)
-
-		// 如果目标字段是零值（空字符串、0等），则用源字段的值替换
-		if dstField.IsZero() && dstField.CanSet() {
-			dstField.Set(srcField)
-		}
 	}
 
 	return nil

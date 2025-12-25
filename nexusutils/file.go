@@ -1,4 +1,4 @@
-package utils
+package nexusutils
 
 import (
 	"os"

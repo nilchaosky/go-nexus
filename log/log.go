@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nilchaosky/go-nexus/utils"
+	"github.com/nilchaosky/go-nexus/nexusutils"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -32,7 +32,7 @@ func Register(config Config) error {
 	}
 
 	// 判断路径是否为目录
-	if !utils.IsDir(outputDir) {
+	if !nexusutils.IsDir(outputDir) {
 		// 路径不是目录，尝试创建
 		if err := os.MkdirAll(outputDir, 0755); err != nil {
 			return fmt.Errorf("创建日志目录失败: %w", err)

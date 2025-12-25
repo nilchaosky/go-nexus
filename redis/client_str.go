@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/nilchaosky/go-nexus/nexusutils"
 	"github.com/nilchaosky/go-nexus/serialize"
-	"github.com/nilchaosky/go-nexus/utils"
 )
 
 // String 字符串操作接口
@@ -39,7 +39,7 @@ type String interface {
 
 // Cache 缓存方法：先从缓存获取，如果不存在则执行fn函数获取数据并缓存
 func (c *Client) Cache(ctx context.Context, key string, value interface{}, expiration time.Duration, fn func() (interface{}, error)) error {
-	rv, err := utils.IsPointer(value)
+	rv, err := nexusutils.IsPointer(value)
 	if err != nil {
 		return err
 	}

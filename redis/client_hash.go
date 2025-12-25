@@ -4,8 +4,8 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/nilchaosky/go-nexus/nexusutils"
 	"github.com/nilchaosky/go-nexus/serialize"
-	"github.com/nilchaosky/go-nexus/utils"
 )
 
 // Hash 哈希表操作接口
@@ -84,7 +84,7 @@ func (c *Client) HMGet(ctx context.Context, key string, fields ...string) ([]int
 
 // HMGetStruct 批量获取哈希表中字段的值，反序列化到结构体切片
 func (c *Client) HMGetStruct(ctx context.Context, key string, value interface{}, fields ...string) error {
-	_, err := utils.IsPointer(value)
+	_, err := nexusutils.IsPointer(value)
 	if err != nil {
 		return err
 	}
@@ -94,7 +94,7 @@ func (c *Client) HMGetStruct(ctx context.Context, key string, value interface{},
 		return err
 	}
 
-	rv, err := utils.IsSlice(value)
+	rv, err := nexusutils.IsSlice(value)
 	if err != nil {
 		return err
 	}

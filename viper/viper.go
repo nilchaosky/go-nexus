@@ -59,7 +59,7 @@ func mergeConfig(dst, src interface{}) error {
 		dstField := dstElem.Field(i)
 		srcField := srcElem.Field(i)
 
-		// 如果目标字段是零值，则用源字段的值替换
+		// 如果目标字段是零值（空字符串、0等），则用源字段的值替换
 		if dstField.IsZero() && dstField.CanSet() {
 			dstField.Set(srcField)
 		}

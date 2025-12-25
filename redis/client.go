@@ -5,8 +5,8 @@ import (
 	"errors"
 	"reflect"
 
+	"github.com/nilchaosky/go-nexus/nexusutils"
 	"github.com/nilchaosky/go-nexus/serialize"
-	"github.com/nilchaosky/go-nexus/utils"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -38,7 +38,7 @@ func (c *Client) Close() error {
 
 // unmarshalValue 获取键值并反序列化到结构体
 func (c *Client) unmarshalValue(value interface{}, fn func() (string, error)) error {
-	_, err := utils.IsPointer(value)
+	_, err := nexusutils.IsPointer(value)
 	if err != nil {
 		return err
 	}
@@ -61,7 +61,7 @@ func (c *Client) unmarshalValue(value interface{}, fn func() (string, error)) er
 
 // unmarshalSlice 获取字符串切片并反序列化到结构体切片
 func (c *Client) unmarshalSlice(value interface{}, fn func() ([]string, error)) error {
-	rv, err := utils.IsSlice(value)
+	rv, err := nexusutils.IsSlice(value)
 	if err != nil {
 		return err
 	}

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/nilchaosky/go-nexus/log"
+	"github.com/nilchaosky/go-nexus/logz"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 )
@@ -58,7 +58,7 @@ func Register(config Config) error {
 	for _, db := range config.DB {
 		// 验证数据库编号范围，超出范围则跳过
 		if db < 0 || db >= len(Clients) {
-			log.Logger.Warn("数据库超出范围，已跳过",
+			logz.Logger.Warn("数据库超出范围，已跳过",
 				zap.Int("db", db),
 				zap.Int("min", 0),
 				zap.Int("max", len(Clients)-1),
@@ -74,7 +74,7 @@ func Register(config Config) error {
 
 		// 测试连接，失败则跳过
 		if err := client.Ping(ctx).Err(); err != nil {
-			log.Logger.Warn("数据库连接失败，已跳过",
+			logz.Logger.Warn("数据库连接失败，已跳过",
 				zap.Int("db", db),
 				zap.Error(err),
 			)

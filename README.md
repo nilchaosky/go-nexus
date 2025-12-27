@@ -6,7 +6,7 @@
 
 ### 📦 模块列表
 
-- **log** - 基于 zap 的高性能日志模块
+- **logz** - 基于 zap 的高性能日志模块
 - **redis** - Redis 客户端封装，支持多种数据结构和 Token 管理
 - **snowflake** - 雪花算法 ID 生成器
 - **validator** - 数据验证工具，支持自定义错误消息
@@ -14,8 +14,8 @@
 - **serialize** - 序列化工具，支持 JSON、JSONIter、Protobuf
 - **model** - 数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库
 - **nexusenum** - 枚举模块，提供状态、标志、方法等枚举类型
-- **response** - 统一响应结构，支持泛型
-- **utils** - 工具函数集合（文件操作、结构体操作、加密等）
+- **nexusresponse** - 统一响应结构，支持泛型
+- **nexusutils** - 工具函数集合（文件操作、结构体操作、加密等）
 
 ## 安装
 
@@ -25,7 +25,7 @@ go get github.com/nilchaosky/go-nexus
 
 ## 模块详细说明
 
-### Log 模块
+### Logz 模块
 
 基于 `zap` 的高性能日志模块，支持：
 
@@ -79,7 +79,7 @@ go get github.com/nilchaosky/go-nexus
 配置文件管理，支持：
 
 - 多种配置文件格式（YAML、JSON、TOML 等）
-- 配置合并（只替换零值字段）
+- 配置直接覆盖
 - 泛型支持
 
 ### Serialize 模块
@@ -102,7 +102,7 @@ go get github.com/nilchaosky/go-nexus
 - 支持 GORM 和 JSON 序列化
 - 各数据库使用对应的类型标签，确保兼容性
 
-### Response 模块
+### NexusResponse 模块
 
 统一响应结构，支持：
 
@@ -121,7 +121,7 @@ go get github.com/nilchaosky/go-nexus
 
 所有枚举类型提供 `String()` 和 `Value()` 方法。
 
-### Utils 模块
+### NexusUtils 模块
 
 工具函数集合：
 

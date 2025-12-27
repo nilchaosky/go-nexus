@@ -91,14 +91,9 @@ func Register(config Config) error {
 // GetClient 获取指定数据库的客户端
 func GetClient(db int) (*Client, error) {
 	if db < 0 || db >= len(Clients) {
-		return nil, fmt.Errorf("数据库编号%d超出范围（0-%d）", db, len(Clients)-1)
+		return nil, errors.New("数据库超出范围")
 	}
-
 	client := Clients[db]
-	if client == nil {
-		return nil, fmt.Errorf("数据库%d的客户端不存在", db)
-	}
-
 	return client, nil
 }
 
@@ -112,11 +107,7 @@ func SetIndex(i int) error {
 }
 
 // GetDefaultClient 获取默认客户端（使用index索引）
-func GetDefaultClient() (*Client, error) {
+func GetDefaultClient() *Client {
 	client := Clients[index]
-	if client == nil {
-		return nil, fmt.Errorf("索引%d的客户端未初始化", index)
-	}
-
-	return client, nil
+	return client
 }

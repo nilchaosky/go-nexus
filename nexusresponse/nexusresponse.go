@@ -42,15 +42,6 @@ func SuccessWithNil() Response[interface{}] {
 	}
 }
 
-// SuccessWithNilData 创建成功响应，data为nil
-func SuccessWithNilData() Response[interface{}] {
-	return Response[interface{}]{
-		Code:    CodeSuccess,
-		Message: MessageSuccess,
-		Data:    nil,
-	}
-}
-
 // SuccessPage 创建分页成功响应
 func SuccessPage[T any](data *Page[T]) Response[Page[T]] {
 	return Response[Page[T]]{

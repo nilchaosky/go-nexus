@@ -20,10 +20,10 @@ type Response[T any] struct {
 // Page 分页结构体
 // T 为泛型类型，表示记录项的类型
 type Page[T any] struct {
-	Current int `json:"current"` // 当前页码
-	Size    int `json:"size"`    // 每页大小
-	Total   int `json:"total"`   // 总记录数
-	Records []T `json:"records"` // 记录列表，使用泛型切片
+	Current int   `json:"current"` // 当前页码
+	Size    int   `json:"size"`    // 每页大小
+	Total   int64 `json:"total"`   // 总记录数
+	Records []T   `json:"records"` // 记录列表，使用泛型切片
 }
 
 // Success 创建成功响应
@@ -62,8 +62,8 @@ func SuccessWithNilData[T any]() Response[*T] {
 
 // SuccessPage 创建分页成功响应
 // data 为分页数据，使用泛型类型
-func SuccessPage[T any](data Page[T]) Response[Page[T]] {
-	return Response[Page[T]]{
+func SuccessPage[T any](data *Page[*T]) Response[*Page[*T]] {
+	return Response[*Page[*T]]{
 		Code:    CodeSuccess,
 		Message: MessageSuccess,
 		Data:    data,

@@ -4,10 +4,11 @@ package nexusenum
 type Status int32
 
 const (
-	// StatusDisabled 禁用状态
-	StatusDisabled Status = 0
+	_status Status = iota
 	// StatusEnabled 启用状态
-	StatusEnabled Status = 1
+	StatusEnabled
+	// StatusDisabled 禁用状态
+	StatusDisabled
 )
 
 // String 返回状态字符串

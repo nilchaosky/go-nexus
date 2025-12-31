@@ -4,10 +4,11 @@ package nexusenum
 type Flag int32
 
 const (
-	// FlagNo 否
-	FlagNo Flag = 0
+	_flag Flag = iota
 	// FlagYes 是
-	FlagYes Flag = 1
+	FlagYes
+	// FlagNo 否
+	FlagNo
 )
 
 // String 返回标志字符串

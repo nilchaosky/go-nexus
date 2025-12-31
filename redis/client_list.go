@@ -53,7 +53,7 @@ func (c *Client) BLPop(ctx context.Context, timeout time.Duration, keys ...strin
 
 // BLPopStruct 阻塞式从列表左侧弹出元素，反序列化到结构体
 func (c *Client) BLPopStruct(ctx context.Context, timeout time.Duration, value interface{}, keys ...string) error {
-	_, err := nexusutils.IsPointer(value)
+	_, err := nexus_utils.IsPointer(value)
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func (c *Client) BRPop(ctx context.Context, timeout time.Duration, keys ...strin
 
 // BRPopStruct 阻塞式从列表右侧弹出元素，反序列化到结构体
 func (c *Client) BRPopStruct(ctx context.Context, timeout time.Duration, value interface{}, keys ...string) error {
-	_, err := nexusutils.IsPointer(value)
+	_, err := nexus_utils.IsPointer(value)
 	if err != nil {
 		return err
 	}

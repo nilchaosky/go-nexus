@@ -1,4 +1,4 @@
-package nexusutils
+package nexus_utils
 
 import (
 	"errors"

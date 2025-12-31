@@ -39,7 +39,7 @@ type String interface {
 
 // Cache 缓存方法：先从缓存获取，如果不存在则执行fn函数获取数据并缓存
 func (c *Client) Cache(ctx context.Context, key string, value interface{}, expiration time.Duration, fn func() (interface{}, error)) error {
-	rv, err := nexusutils.IsPointer(value)
+	rv, err := nexus_utils.IsPointer(value)
 	if err != nil {
 		return err
 	}

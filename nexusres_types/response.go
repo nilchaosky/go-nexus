@@ -1,4 +1,4 @@
-package nexusrestypes
+package nexusres_types
 
 const (
 	// CodeSuccess 成功状态码

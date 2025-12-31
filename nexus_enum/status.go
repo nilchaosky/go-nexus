@@ -1,4 +1,4 @@
-package nexusenum
+package nexus_enum
 
 // Status 状态枚举
 type Status int32

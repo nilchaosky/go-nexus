@@ -1,4 +1,4 @@
-package nexusenum
+package nexus_enum
 
 // Flag 标志枚举
 type Flag int32

@@ -32,7 +32,7 @@ func Register(config Config) error {
 	}
 
 	// 判断路径是否为目录
-	if !nexusutils.IsDir(outputDir) {
+	if !nexus_utils.IsDir(outputDir) {
 		// 路径不是目录，尝试创建
 		if err := os.MkdirAll(outputDir, 0755); err != nil {
 			return fmt.Errorf("创建日志目录失败: %w", err)

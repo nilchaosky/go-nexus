@@ -1,4 +1,4 @@
-package nexusenum
+package nexus_enum
 
 // Method 方法枚举
 type Method string

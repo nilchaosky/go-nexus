@@ -4,7 +4,7 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/nilchaosky/go-nexus/nexusutils"
+	"github.com/nilchaosky/go-nexus/nexus_utils"
 	"github.com/nilchaosky/go-nexus/serialize"
 )
 

@@ -12,10 +12,10 @@
 - **validator** - 数据验证工具，支持自定义错误消息
 - **viper** - 配置文件管理，支持配置合并
 - **serialize** - 序列化工具，支持 JSON、JSONIter、Protobuf
-- **model** - 数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库
-- **nexusenum** - 枚举模块，提供状态、标志、方法等枚举类型
-- **nexusresponse** - 统一响应结构，支持泛型
-- **nexusutils** - 工具函数集合（文件操作、结构体操作、加密等）
+- **gorm-model** - 数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库
+- **nexus_enum** - 枚举模块，提供状态、标志、方法等枚举类型
+- **nexusres_types** - 统一响应结构，支持泛型
+- **nexus_utils** - 工具函数集合（文件操作、结构体操作、加密等）
 
 ## 安装
 
@@ -90,7 +90,7 @@ go get github.com/nilchaosky/go-nexus
 - JSONIter（高性能）
 - Protobuf
 
-### Model 模块
+### GormModel 模块
 
 数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库，提供：
 
@@ -102,7 +102,7 @@ go get github.com/nilchaosky/go-nexus
 - 支持 GORM 和 JSON 序列化
 - 各数据库使用对应的类型标签，确保兼容性
 
-### NexusResponse 模块
+### NexusResTypes 模块
 
 统一响应结构，支持：
 
@@ -111,7 +111,7 @@ go get github.com/nilchaosky/go-nexus
 - 分页响应
 - 类型安全的 nil 响应
 
-### NexusEnum 模块
+### NexusEnum 模块（nexus_enum）
 
 枚举模块，提供常用的枚举类型：
 
@@ -121,7 +121,7 @@ go get github.com/nilchaosky/go-nexus
 
 所有枚举类型提供 `String()` 和 `Value()` 方法。
 
-### NexusUtils 模块
+### NexusUtils 模块（nexus_utils）
 
 工具函数集合：
 

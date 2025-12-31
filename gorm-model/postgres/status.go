@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"github.com/nilchaosky/go-nexus/nexusenum"
+	"github.com/nilchaosky/go-nexus/nexus_enum"
 )
 
 // Status 状态结构体

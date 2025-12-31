@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/nilchaosky/go-nexus/nexusutils"
+	"github.com/nilchaosky/go-nexus/nexus_utils"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

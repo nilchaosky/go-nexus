@@ -22,6 +22,7 @@ type Page[T any] struct {
 	Size    int   `json:"size"`
 	Total   int64 `json:"total"`
 	Records []*T  `json:"records"`
+	HasMore bool  `json:"hasMore"`
 }
 
 // Success 创建成功响应

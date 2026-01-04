@@ -27,6 +27,9 @@ type Page[T any] struct {
 
 // Success 创建成功响应
 func Success[T any](data *T) Response[T] {
+	if data != nil {
+		maskFields(data)
+	}
 	return Response[T]{
 		Code:    CodeSuccess,
 		Message: MessageSuccess,
@@ -45,6 +48,9 @@ func SuccessWithNil() Response[interface{}] {
 
 // SuccessPage 创建分页成功响应
 func SuccessPage[T any](data *Page[T]) Response[Page[T]] {
+	if data != nil {
+		maskFields(data)
+	}
 	return Response[Page[T]]{
 		Code:    CodeSuccess,
 		Message: MessageSuccess,

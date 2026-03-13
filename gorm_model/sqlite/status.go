@@ -1,7 +1,7 @@
-package postgres
+package sqlite
 
 import (
-	"github.com/nilchaosky/go-nexus/nexus_enum"
+	"github.com/nilchaosky/go-nexus/enum"
 )
 
 // Status 状态结构体

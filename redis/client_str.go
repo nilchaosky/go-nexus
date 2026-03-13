@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/nilchaosky/go-nexus/nexus_utils"
 	"github.com/nilchaosky/go-nexus/serialize"
+	"github.com/nilchaosky/go-nexus/utils"
 )
 
 // String 字符串操作接口

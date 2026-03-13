@@ -1,4 +1,4 @@
-package nexusres_types
+package nexus_types
 
 type GinIDRequest struct {
 	ID int64 `form:"id" binding:"required"`

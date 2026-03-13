@@ -7,15 +7,16 @@
 ### 📦 模块列表
 
 - **logz** - 基于 zap 的高性能日志模块
-- **redis** - Redis 客户端封装，支持多种数据结构和 Token 管理
+- **redis** - Redis 客户端封装，支持多种数据结构
+- **token** - 基于 JWT 的 Token 管理模块
 - **snowflake** - 雪花算法 ID 生成器
 - **validator** - 数据验证工具，支持自定义错误消息
 - **viper** - 配置文件管理，支持配置合并
 - **serialize** - 序列化工具，支持 JSON、JSONIter、Protobuf
-- **gorm-model** - 数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库
-- **nexus_enum** - 枚举模块，提供状态、标志、方法等枚举类型
-- **nexusres_types** - 统一响应结构，支持泛型
-- **nexus_utils** - 工具函数集合（文件操作、结构体操作、加密等）
+- **gorm_model** - 数据模型，支持 MySQL、PostgreSQL、SQLite 三种数据库
+- **enum** - 枚举模块，提供状态、标志、方法等枚举类型
+- **types** - 统一响应结构，支持泛型
+- **utils** - 工具函数集合（文件操作、结构体操作、加密等）
 
 ## 安装
 
@@ -45,7 +46,7 @@ go get github.com/nilchaosky/go-nexus
 - **Set** - 集合操作（SAdd、SMembers、SInter、SUnion、SPop 等）
 - **Hash** - 哈希操作（HGet、HSet、HGetAll、HMGet、HVals 等）
 - **ZSet** - 有序集合操作（ZAdd、ZRange、ZScore、ZRank、ZPopMax 等）
-- **Token** - Token 管理（SaveToken、GetToken、DeleteToken、RefreshToken 等）
+- **Token** - Token 存储管理（SaveToken、GetToken、DeleteToken、RefreshToken 等）
 
 支持自动序列化/反序列化，可直接操作结构体。
 
@@ -56,7 +57,8 @@ go get github.com/nilchaosky/go-nexus
 - Token 生成和验证
 - Token 刷新机制
 - 额外参数存储和获取
-- Redis 存储管理
+
+可以与 Redis 模块配合使用，实现 Token 的持久化存储。
 
 ### Snowflake 模块
 
@@ -102,7 +104,7 @@ go get github.com/nilchaosky/go-nexus
 - 支持 GORM 和 JSON 序列化
 - 各数据库使用对应的类型标签，确保兼容性
 
-### NexusResTypes 模块
+### NexusTypes 模块
 
 统一响应结构，支持：
 
@@ -111,7 +113,7 @@ go get github.com/nilchaosky/go-nexus
 - 分页响应
 - 类型安全的 nil 响应
 
-### NexusEnum 模块（nexus_enum）
+### Enum 模块
 
 枚举模块，提供常用的枚举类型：
 
@@ -121,7 +123,7 @@ go get github.com/nilchaosky/go-nexus
 
 所有枚举类型提供 `String()` 和 `Value()` 方法。
 
-### NexusUtils 模块（nexus_utils）
+### Utils 模块
 
 工具函数集合：
 

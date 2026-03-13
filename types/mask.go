@@ -1,4 +1,4 @@
-package nexusres_types
+package nexus_types
 
 import (
 	"reflect"

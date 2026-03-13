@@ -4,8 +4,8 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/nilchaosky/go-nexus/nexus_utils"
 	"github.com/nilchaosky/go-nexus/serialize"
+	"github.com/nilchaosky/go-nexus/utils"
 )
 
 // Hash 哈希表操作接口

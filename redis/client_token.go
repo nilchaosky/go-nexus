@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/nilchaosky/go-nexus/redis/token"
+	"github.com/nilchaosky/go-nexus/token"
 )
 
 var (

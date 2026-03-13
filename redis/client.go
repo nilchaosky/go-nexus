@@ -10,34 +10,34 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// Client 客户端包装结构体
+// client 客户端包装结构体
 // 实现了 Generic、String、List、Set、Hash、ZSet 接口
-type Client struct {
+type client struct {
 	redis.UniversalClient
 }
 
 // NewClient 创建客户端
-func NewClient(client redis.UniversalClient) *Client {
-	return &Client{UniversalClient: client}
+func NewClient(rdb redis.UniversalClient) *client {
+	return &client{UniversalClient: rdb}
 }
 
 // GetRawClient 获取原始客户端
-func (c *Client) GetRawClient() redis.UniversalClient {
+func (c *client) GetRawClient() redis.UniversalClient {
 	return c.UniversalClient
 }
 
 // Ping 测试连接
-func (c *Client) Ping(ctx context.Context) error {
+func (c *client) Ping(ctx context.Context) error {
 	return c.UniversalClient.Ping(ctx).Err()
 }
 
 // Close 关闭客户端连接
-func (c *Client) Close() error {
+func (c *client) Close() error {
 	return c.UniversalClient.Close()
 }
 
 // unmarshalValue 获取键值并反序列化到结构体
-func (c *Client) unmarshalValue(value interface{}, fn func() (string, error)) error {
+func (c *client) unmarshalValue(value interface{}, fn func() (string, error)) error {
 	_, err := nexus_utils.IsPointer(value)
 	if err != nil {
 		return err
@@ -60,7 +60,7 @@ func (c *Client) unmarshalValue(value interface{}, fn func() (string, error)) er
 }
 
 // unmarshalSlice 获取字符串切片并反序列化到结构体切片
-func (c *Client) unmarshalSlice(value interface{}, fn func() ([]string, error)) error {
+func (c *client) unmarshalSlice(value interface{}, fn func() ([]string, error)) error {
 	rv, err := nexus_utils.IsSlice(value)
 	if err != nil {
 		return err

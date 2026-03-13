@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// client 全局客户端
-	client *Client
+	// Client 全局客户端
+	Client *client
 )
 
 // Register 注册客户端
@@ -44,7 +44,7 @@ func Register(config Config) error {
 	}
 
 	// 将客户端存储到全局变量
-	client = NewClient(rdb)
+	Client = NewClient(rdb)
 
 	return nil
 }

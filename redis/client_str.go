@@ -38,7 +38,7 @@ type String interface {
 }
 
 // Cache 缓存方法：先从缓存获取，如果不存在则执行fn函数获取数据并缓存
-func (c *Client) Cache(ctx context.Context, key string, value interface{}, expiration time.Duration, fn func() (interface{}, error)) error {
+func (c *client) Cache(ctx context.Context, key string, value interface{}, expiration time.Duration, fn func() (interface{}, error)) error {
 	rv, err := nexus_utils.IsPointer(value)
 	if err != nil {
 		return err
@@ -90,7 +90,7 @@ func (c *Client) Cache(ctx context.Context, key string, value interface{}, expir
 }
 
 // Get 获取键值
-func (c *Client) Get(ctx context.Context, key string) (string, error) {
+func (c *client) Get(ctx context.Context, key string) (string, error) {
 	result := c.UniversalClient.Get(ctx, key)
 	if result.Err() != nil {
 		return "", result.Err()
@@ -99,110 +99,110 @@ func (c *Client) Get(ctx context.Context, key string) (string, error) {
 }
 
 // GetStruct 获取键值并反序列化到结构体
-func (c *Client) GetStruct(ctx context.Context, key string, value interface{}) error {
+func (c *client) GetStruct(ctx context.Context, key string, value interface{}) error {
 	return c.unmarshalValue(value, func() (string, error) {
 		return c.Get(ctx, key)
 	})
 }
 
 // Set 设置键值（不过期）
-func (c *Client) Set(ctx context.Context, key string, value interface{}) error {
+func (c *client) Set(ctx context.Context, key string, value interface{}) error {
 	return c.UniversalClient.Set(ctx, key, value, 0).Err()
 }
 
 // SetEX 设置键值（带过期时间）
-func (c *Client) SetEX(ctx context.Context, key string, value interface{}, expiration time.Duration) error {
+func (c *client) SetEX(ctx context.Context, key string, value interface{}, expiration time.Duration) error {
 	return c.UniversalClient.Set(ctx, key, value, expiration).Err()
 }
 
 // SetNX 仅在key不存在时设置（不过期）
-func (c *Client) SetNX(ctx context.Context, key string, value interface{}) (bool, error) {
+func (c *client) SetNX(ctx context.Context, key string, value interface{}) (bool, error) {
 	return c.UniversalClient.SetNX(ctx, key, value, 0).Result()
 }
 
 // SetNXEX 仅在key不存在时设置（带过期时间）
-func (c *Client) SetNXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error) {
+func (c *client) SetNXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error) {
 	return c.UniversalClient.SetNX(ctx, key, value, expiration).Result()
 }
 
 // SetXX 仅在key存在时设置（不过期）
-func (c *Client) SetXX(ctx context.Context, key string, value interface{}) (bool, error) {
+func (c *client) SetXX(ctx context.Context, key string, value interface{}) (bool, error) {
 	return c.UniversalClient.SetXX(ctx, key, value, 0).Result()
 }
 
 // SetXXEX 仅在key存在时设置（带过期时间）
-func (c *Client) SetXXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error) {
+func (c *client) SetXXEX(ctx context.Context, key string, value interface{}, expiration time.Duration) (bool, error) {
 	return c.UniversalClient.SetXX(ctx, key, value, expiration).Result()
 }
 
 // Append 追加字符串到键值
-func (c *Client) Append(ctx context.Context, key, value string) (int64, error) {
+func (c *client) Append(ctx context.Context, key, value string) (int64, error) {
 	return c.UniversalClient.Append(ctx, key, value).Result()
 }
 
 // StrLen 获取字符串长度
-func (c *Client) StrLen(ctx context.Context, key string) (int64, error) {
+func (c *client) StrLen(ctx context.Context, key string) (int64, error) {
 	return c.UniversalClient.StrLen(ctx, key).Result()
 }
 
 // GetRange 获取字符串的子串
-func (c *Client) GetRange(ctx context.Context, key string, start, end int64) (string, error) {
+func (c *client) GetRange(ctx context.Context, key string, start, end int64) (string, error) {
 	return c.UniversalClient.GetRange(ctx, key, start, end).Result()
 }
 
 // SetRange 设置字符串的子串
-func (c *Client) SetRange(ctx context.Context, key string, offset int64, value string) (int64, error) {
+func (c *client) SetRange(ctx context.Context, key string, offset int64, value string) (int64, error) {
 	return c.UniversalClient.SetRange(ctx, key, offset, value).Result()
 }
 
 // Incr 递增键值
-func (c *Client) Incr(ctx context.Context, key string) (int64, error) {
+func (c *client) Incr(ctx context.Context, key string) (int64, error) {
 	return c.UniversalClient.Incr(ctx, key).Result()
 }
 
 // IncrBy 按指定值递增键值
-func (c *Client) IncrBy(ctx context.Context, key string, value int64) (int64, error) {
+func (c *client) IncrBy(ctx context.Context, key string, value int64) (int64, error) {
 	return c.UniversalClient.IncrBy(ctx, key, value).Result()
 }
 
 // IncrByFloat 按浮点数值递增键值
-func (c *Client) IncrByFloat(ctx context.Context, key string, value float64) (float64, error) {
+func (c *client) IncrByFloat(ctx context.Context, key string, value float64) (float64, error) {
 	return c.UniversalClient.IncrByFloat(ctx, key, value).Result()
 }
 
 // Decr 递减键值
-func (c *Client) Decr(ctx context.Context, key string) (int64, error) {
+func (c *client) Decr(ctx context.Context, key string) (int64, error) {
 	return c.UniversalClient.Decr(ctx, key).Result()
 }
 
 // DecrBy 按指定值递减键值
-func (c *Client) DecrBy(ctx context.Context, key string, value int64) (int64, error) {
+func (c *client) DecrBy(ctx context.Context, key string, value int64) (int64, error) {
 	return c.UniversalClient.DecrBy(ctx, key, value).Result()
 }
 
 // GetSet 获取旧值并设置新值
-func (c *Client) GetSet(ctx context.Context, key string, value interface{}) (string, error) {
+func (c *client) GetSet(ctx context.Context, key string, value interface{}) (string, error) {
 	return c.UniversalClient.GetSet(ctx, key, value).Result()
 }
 
 // GetSetStruct 获取旧值并设置新值，反序列化到结构体
-func (c *Client) GetSetStruct(ctx context.Context, key string, value interface{}, result interface{}) error {
+func (c *client) GetSetStruct(ctx context.Context, key string, value interface{}, result interface{}) error {
 	return c.unmarshalValue(result, func() (string, error) {
 		return c.GetSet(ctx, key, value)
 	})
 }
 
 // MGet 批量获取键值
-func (c *Client) MGet(ctx context.Context, keys ...string) ([]interface{}, error) {
+func (c *client) MGet(ctx context.Context, keys ...string) ([]interface{}, error) {
 	return c.UniversalClient.MGet(ctx, keys...).Result()
 }
 
 // MSet 批量设置键值
-func (c *Client) MSet(ctx context.Context, values ...interface{}) error {
+func (c *client) MSet(ctx context.Context, values ...interface{}) error {
 	return c.UniversalClient.MSet(ctx, values...).Err()
 }
 
 // MSetNX 批量设置键值（仅在所有key都不存在时设置）
-func (c *Client) MSetNX(ctx context.Context, values ...interface{}) (bool, error) {
+func (c *client) MSetNX(ctx context.Context, values ...interface{}) (bool, error) {
 	return c.UniversalClient.MSetNX(ctx, values...).Result()
 }

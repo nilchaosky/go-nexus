@@ -25,7 +25,7 @@ type Token interface {
 }
 
 // GetUserTokenKey 获取用户Token Key
-func (c *Client) GetUserTokenKey(id string) (string, error) {
+func (c *client) GetUserTokenKey(id string) (string, error) {
 	if id == "" {
 		return "", errors.New("id不能为空")
 	}
@@ -33,7 +33,7 @@ func (c *Client) GetUserTokenKey(id string) (string, error) {
 }
 
 // GetToken 获取Token和RefreshToken
-func (c *Client) GetToken(ctx context.Context, id string) (string, string) {
+func (c *client) GetToken(ctx context.Context, id string) (string, string) {
 	// 获取用户Token Key
 	key, err := c.GetUserTokenKey(id)
 	if err != nil {
@@ -58,7 +58,7 @@ func (c *Client) GetToken(ctx context.Context, id string) (string, string) {
 }
 
 // SaveToken 保存Token
-func (c *Client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValue string, expiration, refreshExpiration time.Duration) error {
+func (c *client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValue string, expiration, refreshExpiration time.Duration) error {
 	// 获取用户Token Key
 	key, err := c.GetUserTokenKey(id)
 	if err != nil {
@@ -79,7 +79,7 @@ func (c *Client) SaveToken(ctx context.Context, id, tokenValue, refreshTokenValu
 }
 
 // DeleteToken 删除Token
-func (c *Client) DeleteToken(ctx context.Context, id string) error {
+func (c *client) DeleteToken(ctx context.Context, id string) error {
 	// 获取用户Token Key
 	key, err := c.GetUserTokenKey(id)
 	if err != nil {
@@ -100,7 +100,7 @@ func (c *Client) DeleteToken(ctx context.Context, id string) error {
 }
 
 // VerifyRefreshToken 验证刷新Token
-func (c *Client) VerifyRefreshToken(ctx context.Context, id, oldToken, oldRefreshToken, secret string) error {
+func (c *client) VerifyRefreshToken(ctx context.Context, id, oldToken, oldRefreshToken, secret string) error {
 	// 验证oldToken和oldRefreshToken是否为空
 	if oldToken == "" || oldRefreshToken == "" {
 		return errors.New("token丢失")
